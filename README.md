@@ -60,3 +60,7 @@ Regeln anlegen: Integration → **Konfigurieren** → „Neue Regel hinzufügen�
 ## Hinweis zur Verschlüsselung
 
 Bot-Nachrichten laufen über die Lethe-Bot-API und sind – wie alle Lethe-Bot-Nachrichten – **nicht Ende-zu-Ende-verschlüsselt** (TLS-Transport, Klartext auf dem Server). Keine vertraulichen Daten in Nachrichtentexte schreiben.
+
+## Lizenz
+
+[GPL-3.0](LICENSE) – wie [Lethe-Community](https://github.com/thestealth131205/Lethe-Community).
