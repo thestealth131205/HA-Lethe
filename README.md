@@ -2,6 +2,28 @@
 
 Home-Assistant-Integration für den **Lethe Messenger**. Home Assistant schreibt dir als eigener Bot in Lethe – für Alarme, Statusmeldungen oder Infos.
 
+## Was ist Lethe?
+
+[Lethe](https://letheapp.de) ist ein datenschutzorientierter Messenger mit Ende-zu-Ende-Verschlüsselung. Nachrichten liegen auf dem Server nur als Chiffretext, die Schlüssel werden auf dem Gerät erzeugt.
+
+- Verschlüsselte Einzel- und Gruppenchats
+- Sprach- und Videoanrufe (WebRTC)
+- Statusmeldungen und Umfragen
+- Mehrere Geräte pro Konto, gekoppelt per QR-Code („Verknüpfte Geräte“)
+- Standortfreigabe auf Basis von OpenStreetMap
+- Optionaler eingebauter Tor-Client
+- FOSS-Build ohne Google-Dienste: Push über einen eigenen WebSocket-Dienst statt Firebase
+
+Die Android-App ist Open Source ([Lethe-Community](https://github.com/thestealth131205/Lethe-Community), GPL-3.0). Für die Nutzung brauchst du ein Lethe-Konto.
+
+Lethe hat außerdem eine **Bot-API**. Über sie kann ein Dienst als eigener Chat-Kontakt Nachrichten schicken. Genau das nutzt diese Integration: Home Assistant wird zu einem Bot in deiner Kontaktliste.
+
+## Voraussetzungen
+
+- Home Assistant 2025.1 oder neuer
+- Lethe-App auf dem Handy mit eingerichtetem Konto
+- Home Assistant muss den Lethe-Server erreichen (Standard `https://letheapp.de`)
+
 ## Funktionen
 
 - **Login per QR-Code** aus der Lethe-App (wie beim Lethe-Webclient), kein Passwort nötig.
