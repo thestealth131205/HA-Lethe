@@ -1,0 +1,13 @@
+{
+  "domain": "lethe",
+  "name": "Lethe Messenger",
+  "codeowners": ["@thestealth131205"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/thestealth131205/HA-Lethe",
+  "integration_type": "service",
+  "iot_class": "cloud_push",
+  "issue_tracker": "https://github.com/thestealth131205/HA-Lethe/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}

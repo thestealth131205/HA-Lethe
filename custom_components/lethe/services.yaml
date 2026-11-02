@@ -1,0 +1,8 @@
+send_message:
+  fields:
+    message:
+      required: true
+      example: "Die Waschmaschine ist fertig."
+      selector:
+        text:
+          multiline: true

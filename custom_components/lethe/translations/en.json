@@ -1,0 +1,110 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect Lethe Messenger",
+        "description": "Enter the address of your Lethe server and the name Home Assistant uses to message you in Lethe. A QR code appears in the next step.",
+        "data": {
+          "url": "Lethe server URL",
+          "bot_name": "Sender name in Lethe"
+        }
+      },
+      "expired": {
+        "title": "QR code expired",
+        "description": "The QR code was not scanned within 5 minutes. Submit to create a new one."
+      }
+    },
+    "progress": {
+      "wait_scan": "In the Lethe app open **Settings → Linked devices → Scan QR code** and scan this code:\n\n![QR code]({qr_url})\n\nThe code is valid for 5 minutes. This dialog continues automatically once scanned."
+    },
+    "error": {
+      "cannot_connect": "Cannot reach the Lethe server."
+    },
+    "abort": {
+      "already_configured": "This Lethe account is already configured.",
+      "setup_failed": "Setup failed (bot could not be created). See the Home Assistant log."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Lethe notifications",
+        "description": "Current rules:\n{rules}",
+        "menu_options": {
+          "add_rule": "Add rule",
+          "select_rule": "Edit / delete rule",
+          "save": "Save and close"
+        }
+      },
+      "add_rule": {
+        "title": "New rule",
+        "description": "When one of the selected entities meets the condition, the message is sent (once per transition, not repeated while the state stays the same).\n\nTemplates are allowed, e.g. {tpl_help}.",
+        "data": {
+          "name": "Rule name",
+          "entities": "Entities",
+          "operator": "Condition",
+          "value": "Value",
+          "message": "Message",
+          "cooldown": "Minimum interval between messages",
+          "enabled": "Enabled"
+        },
+        "data_description": {
+          "value": "e.g. on, off, open, home or a number. Leave empty for “Any change”.",
+          "cooldown": "0 = no limit"
+        }
+      },
+      "select_rule": {
+        "title": "Select rule",
+        "data": {
+          "rule": "Rule"
+        }
+      },
+      "edit_rule": {
+        "title": "Edit rule “{name}”",
+        "description": "Templates: {tpl_help}.",
+        "data": {
+          "name": "Rule name",
+          "entities": "Entities",
+          "operator": "Condition",
+          "value": "Value",
+          "message": "Message",
+          "cooldown": "Minimum interval between messages",
+          "enabled": "Enabled",
+          "delete": "Delete this rule"
+        },
+        "data_description": {
+          "value": "e.g. on, off, open, home or a number. Leave empty for “Any change”.",
+          "cooldown": "0 = no limit"
+        }
+      }
+    },
+    "error": {
+      "no_entities": "Select at least one entity.",
+      "value_required": "This condition needs a value.",
+      "value_not_number": "For greater/less than the value must be a number."
+    }
+  },
+  "selector": {
+    "operator": {
+      "options": {
+        "eq": "State equals",
+        "ne": "State does not equal",
+        "gt": "Value greater than",
+        "lt": "Value less than",
+        "changed": "Any change"
+      }
+    }
+  },
+  "services": {
+    "send_message": {
+      "name": "Send message",
+      "description": "Sends a message to you via Lethe.",
+      "fields": {
+        "message": {
+          "name": "Message",
+          "description": "Message text."
+        }
+      }
+    }
+  }
+}

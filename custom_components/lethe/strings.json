@@ -1,0 +1,110 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Lethe Messenger verbinden",
+        "description": "Gib die Adresse deines Lethe-Servers und den Namen an, unter dem Home Assistant dir in Lethe schreibt. Im nächsten Schritt erscheint ein QR-Code.",
+        "data": {
+          "url": "Lethe-Server-URL",
+          "bot_name": "Name des Absenders in Lethe"
+        }
+      },
+      "expired": {
+        "title": "QR-Code abgelaufen",
+        "description": "Der QR-Code wurde nicht innerhalb von 5 Minuten gescannt. Absenden erzeugt einen neuen Code."
+      }
+    },
+    "progress": {
+      "wait_scan": "Öffne in der Lethe-App **Einstellungen → Verknüpfte Geräte → QR-Code scannen** und scanne diesen Code:\n\n![QR-Code]({qr_url})\n\nDer Code ist 5 Minuten gültig. Dieses Fenster geht automatisch weiter, sobald gescannt wurde."
+    },
+    "error": {
+      "cannot_connect": "Lethe-Server nicht erreichbar."
+    },
+    "abort": {
+      "already_configured": "Dieser Lethe-Account ist bereits eingerichtet.",
+      "setup_failed": "Einrichtung fehlgeschlagen (Bot konnte nicht angelegt werden). Details im Home-Assistant-Log."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Lethe-Benachrichtigungen",
+        "description": "Aktuelle Regeln:\n{rules}",
+        "menu_options": {
+          "add_rule": "Neue Regel hinzufügen",
+          "select_rule": "Regel bearbeiten / löschen",
+          "save": "Speichern und schließen"
+        }
+      },
+      "add_rule": {
+        "title": "Neue Regel",
+        "description": "Wenn eine der gewählten Entities die Bedingung erfüllt, wird die Nachricht gesendet (einmal pro Übergang, nicht wiederholt solange der Zustand gleich bleibt).\n\nIm Text sind Templates erlaubt, z. B. {tpl_help}.",
+        "data": {
+          "name": "Name der Regel",
+          "entities": "Entities",
+          "operator": "Bedingung",
+          "value": "Wert",
+          "message": "Nachricht",
+          "cooldown": "Mindestabstand zwischen zwei Nachrichten",
+          "enabled": "Aktiv"
+        },
+        "data_description": {
+          "value": "z. B. on, off, open, home oder eine Zahl. Bei „Jede Änderung“ leer lassen.",
+          "cooldown": "0 = kein Limit"
+        }
+      },
+      "select_rule": {
+        "title": "Regel auswählen",
+        "data": {
+          "rule": "Regel"
+        }
+      },
+      "edit_rule": {
+        "title": "Regel „{name}“ bearbeiten",
+        "description": "Templates im Text: {tpl_help}.",
+        "data": {
+          "name": "Name der Regel",
+          "entities": "Entities",
+          "operator": "Bedingung",
+          "value": "Wert",
+          "message": "Nachricht",
+          "cooldown": "Mindestabstand zwischen zwei Nachrichten",
+          "enabled": "Aktiv",
+          "delete": "Diese Regel löschen"
+        },
+        "data_description": {
+          "value": "z. B. on, off, open, home oder eine Zahl. Bei „Jede Änderung“ leer lassen.",
+          "cooldown": "0 = kein Limit"
+        }
+      }
+    },
+    "error": {
+      "no_entities": "Mindestens eine Entity auswählen.",
+      "value_required": "Für diese Bedingung wird ein Wert benötigt.",
+      "value_not_number": "Für größer/kleiner muss der Wert eine Zahl sein."
+    }
+  },
+  "selector": {
+    "operator": {
+      "options": {
+        "eq": "Zustand ist gleich",
+        "ne": "Zustand ist ungleich",
+        "gt": "Wert ist größer als",
+        "lt": "Wert ist kleiner als",
+        "changed": "Jede Änderung"
+      }
+    }
+  },
+  "services": {
+    "send_message": {
+      "name": "Nachricht senden",
+      "description": "Sendet eine Nachricht über Lethe an dich.",
+      "fields": {
+        "message": {
+          "name": "Nachricht",
+          "description": "Text der Nachricht."
+        }
+      }
+    }
+  }
+}
