@@ -13,6 +13,7 @@ import asyncio
 import logging
 import time
 import uuid
+from collections.abc import Mapping
 from typing import Any
 
 import voluptuous as vol
@@ -75,6 +76,7 @@ class LetheConfigFlow(ConfigFlow, domain=DOMAIN):
         self._qr_token: str | None = None
         self._link_task: asyncio.Task | None = None
         self._auth: dict[str, Any] | None = None
+        self._reauth = False
 
     @staticmethod
     @callback
@@ -154,10 +156,43 @@ class LetheConfigFlow(ConfigFlow, domain=DOMAIN):
     ) -> ConfigFlowResult:
         """QR abgelaufen – auf Wunsch neuen Code erzeugen."""
         if user_input is not None:
+            if self._reauth:
+                return await self.async_step_reauth_confirm({})
             return await self.async_step_user(
                 {CONF_URL: self._url, CONF_BOT_NAME: self._bot_name}
             )
         return self.async_show_form(step_id="expired", data_schema=vol.Schema({}))
+
+    async def async_step_reauth(
+        self, entry_data: Mapping[str, Any]
+    ) -> ConfigFlowResult:
+        """Wird aufgerufen, wenn der gespeicherte Bot-Token ungültig geworden ist."""
+        self._reauth = True
+        self._url = entry_data[CONF_URL]
+        self._bot_name = entry_data[CONF_BOT_NAME]
+        return await self.async_step_reauth_confirm()
+
+    async def async_step_reauth_confirm(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Bestätigung, dann QR-Login wie bei der Erstanmeldung."""
+        errors: dict[str, str] = {}
+        if user_input is not None:
+            self._api = LetheApi(async_get_clientsession(self.hass), self._url)
+            try:
+                self._qr_token = await self._api.init_qr()
+            except LetheError as err:
+                _LOGGER.warning("Lethe nicht erreichbar: %s", err)
+                errors["base"] = "cannot_connect"
+            else:
+                return await self.async_step_link()
+
+        return self.async_show_form(
+            step_id="reauth_confirm",
+            data_schema=vol.Schema({}),
+            errors=errors,
+            description_placeholders={"bot_name": self._bot_name},
+        )
 
     async def async_step_finish(
         self, user_input: dict[str, Any] | None = None
@@ -168,7 +203,12 @@ class LetheConfigFlow(ConfigFlow, domain=DOMAIN):
         try:
             me = await self._api.get_me(jwt)
             await self.async_set_unique_id(me["id"])
-            self._abort_if_unique_id_configured()
+            if self._reauth:
+                # Verhindert, dass ein QR-Code eines anderen Lethe-Accounts
+                # den Bot-Token dieses bestehenden Eintrags übernimmt.
+                self._abort_if_unique_id_mismatch(reason="wrong_account")
+            else:
+                self._abort_if_unique_id_configured()
 
             bot = await self._api.register_bot(jwt, self._bot_name)
             await self._api.start_bot_chat(jwt, bot["fake_number"])
@@ -189,17 +229,24 @@ class LetheConfigFlow(ConfigFlow, domain=DOMAIN):
                 except LetheError as err:
                     _LOGGER.debug("Abmelden der Einrichtungs-Session fehlgeschlagen: %s", err)
 
+        data = {
+            CONF_URL: self._url,
+            CONF_BOT_NAME: self._bot_name,
+            CONF_BOT_TOKEN: bot["bot_token"],
+            CONF_BOT_ID: bot["id"],
+            CONF_BOT_FAKE_NUMBER: bot["fake_number"],
+            CONF_CHAT_ID: me["id"],
+            CONF_USER_NAME: me.get("name", ""),
+        }
+
+        if self._reauth:
+            return self.async_update_reload_and_abort(
+                self._get_reauth_entry(), data=data
+            )
+
         return self.async_create_entry(
             title=f"Lethe ({me.get('name') or me.get('fake_number')})",
-            data={
-                CONF_URL: self._url,
-                CONF_BOT_NAME: self._bot_name,
-                CONF_BOT_TOKEN: bot["bot_token"],
-                CONF_BOT_ID: bot["id"],
-                CONF_BOT_FAKE_NUMBER: bot["fake_number"],
-                CONF_CHAT_ID: me["id"],
-                CONF_USER_NAME: me.get("name", ""),
-            },
+            data=data,
             options={CONF_RULES: []},
         )
 

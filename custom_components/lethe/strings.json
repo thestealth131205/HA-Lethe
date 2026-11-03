@@ -12,6 +12,10 @@
       "expired": {
         "title": "QR-Code abgelaufen",
         "description": "Der QR-Code wurde nicht innerhalb von 5 Minuten gescannt. Absenden erzeugt einen neuen Code."
+      },
+      "reauth_confirm": {
+        "title": "Lethe erneut verbinden",
+        "description": "Der Bot-Token für „{bot_name}“ ist ungültig geworden (z. B. weil der Bot in Lethe gelöscht wurde). Bestätige, um dich per QR-Code erneut anzumelden – es wird ein neuer Bot angelegt und der gespeicherte Token aktualisiert."
       }
     },
     "progress": {
@@ -22,7 +26,9 @@
     },
     "abort": {
       "already_configured": "Dieser Lethe-Account ist bereits eingerichtet.",
-      "setup_failed": "Einrichtung fehlgeschlagen (Bot konnte nicht angelegt werden). Details im Home-Assistant-Log."
+      "setup_failed": "Einrichtung fehlgeschlagen (Bot konnte nicht angelegt werden). Details im Home-Assistant-Log.",
+      "reauth_successful": "Lethe wurde erfolgreich erneut verbunden.",
+      "wrong_account": "Der gescannte QR-Code gehört zu einem anderen Lethe-Account. Bitte melde dich mit dem ursprünglichen Account an, um diese Integration zu erneuern."
     }
   },
   "options": {
