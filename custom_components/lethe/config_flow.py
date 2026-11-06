@@ -30,6 +30,7 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .api import LetheApi, LetheError
 from .const import (
+    CONF_AWAY_ONLY_ENTITY,
     CONF_BOT_FAKE_NUMBER,
     CONF_BOT_ID,
     CONF_BOT_NAME,
@@ -285,6 +286,12 @@ def _rule_schema(rule: dict[str, Any] | None, with_delete: bool) -> vol.Schema:
             )
         ),
         vol.Required(CONF_ENABLED, default=rule.get(CONF_ENABLED, True)): bool,
+        vol.Optional(
+            CONF_AWAY_ONLY_ENTITY,
+            description={"suggested_value": rule.get(CONF_AWAY_ONLY_ENTITY, "")},
+        ): selector.EntitySelector(
+            selector.EntitySelectorConfig(domain=["person", "device_tracker"])
+        ),
     }
     if with_delete:
         schema[vol.Required(CONF_DELETE, default=False)] = bool
@@ -420,4 +427,5 @@ def _clean(user_input: dict[str, Any]) -> dict[str, Any]:
     data = {k: v for k, v in user_input.items() if k != CONF_DELETE}
     data[CONF_VALUE] = (data.get(CONF_VALUE) or "").strip()
     data[CONF_COOLDOWN] = int(data.get(CONF_COOLDOWN) or 0)
+    data[CONF_AWAY_ONLY_ENTITY] = data.get(CONF_AWAY_ONLY_ENTITY) or ""
     return data

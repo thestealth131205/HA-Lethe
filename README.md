@@ -32,6 +32,7 @@ Lethe hat außerdem eine **Bot-API**. Über sie kann ein Dienst als eigener Chat
   - Nachricht mit Templates: `{{ name }}`, `{{ state }}`, `{{ old_state }}`, `{{ unit }}`, `{{ entity_id }}`, `{{ attributes }}`
   - Optionaler Mindestabstand (Cooldown) pro Regel und Entity
   - Gesendet wird nur beim Übergang in die Bedingung, nicht bei jedem Attribut-Update
+  - Optional: „Nur senden, wenn diese Person/dieser Tracker nicht ‚home‘ ist“ – damit lassen sich Regeln auf Abwesenheit beschränken (z. B. Präsenz-Alarme, die nur unterwegs stören sollen)
 - **Notify-Entity** (`notify.send_message`) und Dienst **`lethe.send_message`** für eigene Automationen.
 
 ## Installation

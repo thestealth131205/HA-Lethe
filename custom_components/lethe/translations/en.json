@@ -52,11 +52,13 @@
           "value": "Value",
           "message": "Message",
           "cooldown": "Minimum interval between messages",
-          "enabled": "Enabled"
+          "enabled": "Enabled",
+          "away_only_entity": "Only send while this person/tracker is not “home”"
         },
         "data_description": {
           "value": "e.g. on, off, open, home or a number. Leave empty for “Any change”.",
-          "cooldown": "0 = no limit"
+          "cooldown": "0 = no limit",
+          "away_only_entity": "Optional: a person or device_tracker entity. While it reports “home”, the message is suppressed. Leave empty to always send."
         }
       },
       "select_rule": {
@@ -76,11 +78,13 @@
           "message": "Message",
           "cooldown": "Minimum interval between messages",
           "enabled": "Enabled",
-          "delete": "Delete this rule"
+          "delete": "Delete this rule",
+          "away_only_entity": "Only send while this person/tracker is not “home”"
         },
         "data_description": {
           "value": "e.g. on, off, open, home or a number. Leave empty for “Any change”.",
-          "cooldown": "0 = no limit"
+          "cooldown": "0 = no limit",
+          "away_only_entity": "Optional: a person or device_tracker entity. While it reports “home”, the message is suppressed. Leave empty to always send."
         }
       }
     },

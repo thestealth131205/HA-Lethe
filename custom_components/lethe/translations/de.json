@@ -52,11 +52,13 @@
           "value": "Wert",
           "message": "Nachricht",
           "cooldown": "Mindestabstand zwischen zwei Nachrichten",
-          "enabled": "Aktiv"
+          "enabled": "Aktiv",
+          "away_only_entity": "Nur senden, wenn diese Person/dieser Tracker nicht „home“ ist"
         },
         "data_description": {
           "value": "z. B. on, off, open, home oder eine Zahl. Bei „Jede Änderung“ leer lassen.",
-          "cooldown": "0 = kein Limit"
+          "cooldown": "0 = kein Limit",
+          "away_only_entity": "Optional: Person- oder Device-Tracker-Entity. Solange sie „home“ meldet, wird die Nachricht unterdrückt. Leer lassen für immer senden."
         }
       },
       "select_rule": {
@@ -76,11 +78,13 @@
           "message": "Nachricht",
           "cooldown": "Mindestabstand zwischen zwei Nachrichten",
           "enabled": "Aktiv",
-          "delete": "Diese Regel löschen"
+          "delete": "Diese Regel löschen",
+          "away_only_entity": "Nur senden, wenn diese Person/dieser Tracker nicht „home“ ist"
         },
         "data_description": {
           "value": "z. B. on, off, open, home oder eine Zahl. Bei „Jede Änderung“ leer lassen.",
-          "cooldown": "0 = kein Limit"
+          "cooldown": "0 = kein Limit",
+          "away_only_entity": "Optional: Person- oder Device-Tracker-Entity. Solange sie „home“ meldet, wird die Nachricht unterdrückt. Leer lassen für immer senden."
         }
       }
     },

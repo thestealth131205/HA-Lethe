@@ -18,6 +18,7 @@ from homeassistant.helpers.event import async_track_state_change_event
 from homeassistant.helpers.template import Template
 
 from .const import (
+    CONF_AWAY_ONLY_ENTITY,
     CONF_COOLDOWN,
     CONF_ENABLED,
     CONF_ENTITIES,
@@ -95,6 +96,14 @@ class RuleEngine:
         while self._unsubs:
             self._unsubs.pop()()
 
+    def _is_home(self, rule: dict[str, Any]) -> bool:
+        """True nur, wenn die konfigurierte Anwesenheits-Entity eindeutig „home“ meldet."""
+        entity_id = rule.get(CONF_AWAY_ONLY_ENTITY)
+        if not entity_id:
+            return False
+        state = self.hass.states.get(entity_id)
+        return state is not None and state.state == "home"
+
     def _make_listener(self, rule: dict[str, Any]):
         @callback
         def _listener(event: Event[EventStateChangedData]) -> None:
@@ -109,6 +118,9 @@ class RuleEngine:
                 if old.state in _INVALID or new.state in _INVALID:
                     return
             elif not condition_met(rule, new) or condition_met(rule, old):
+                return
+
+            if self._is_home(rule):
                 return
 
             key = (rule[CONF_RULE_ID], new.entity_id)

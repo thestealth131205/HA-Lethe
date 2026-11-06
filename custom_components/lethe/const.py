@@ -23,6 +23,7 @@ CONF_VALUE = "value"
 CONF_MESSAGE = "message"
 CONF_COOLDOWN = "cooldown"
 CONF_ENABLED = "enabled"
+CONF_AWAY_ONLY_ENTITY = "away_only_entity"
 CONF_DELETE = "delete"
 
 OP_EQ = "eq"
